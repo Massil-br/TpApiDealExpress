@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/Massil-br/TpApiDealExpress/issues"
   },
-  "homepage": "https://github.com/Massil-br/TpApiDealExpress#readme"
+  "homepage": "https://github.com/Massil-br/TpApiDealExpress#readme",
+  "dependencies": {
+    "express": "^5.1.0",
+    "express-validator": "^7.3.0",
+    "mongoose": "^8.19.3"
+  }
 }
