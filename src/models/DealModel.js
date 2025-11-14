@@ -54,6 +54,7 @@ const dealSchema = new mongoose.Schema({
     authorId:{
         Type: ObjectId,
         required:true,
+        ref:"User",
     }
 },{timestamps:true});
 
