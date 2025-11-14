@@ -99,5 +99,5 @@ userSchema.methods.canPerform = function (action) {
 userSchema.statics.ROLES = ROLES;
 userSchema.statics.ROLE_HIERARCHY = ROLE_HIERARCHY;
 
-const User = mongoose.model('User', userSchema);
+const User = mongoose.model('User', userSchema,'users');
 module.exports = User;

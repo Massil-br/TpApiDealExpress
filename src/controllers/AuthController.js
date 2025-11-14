@@ -3,7 +3,7 @@ const User = require("../models/UserModel");
 const { AppError } = require('../utils/error');
 const bcrypt = require("bcrypt");
 
-const baseRegistredRole = "user";
+const baseRegistredRole = "admin";
 
 /**
  * 
