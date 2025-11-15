@@ -24,9 +24,9 @@ app.get('/', async (req, res)=>{
     res.json({message:'Welcome to DealExpress Api'});
 });
 
-
-app.use(errorHandler);
 app.use(notFoundHandler);
+app.use(errorHandler);
+
 const PORT = 8080;
 
 app.listen(PORT,()=>{
