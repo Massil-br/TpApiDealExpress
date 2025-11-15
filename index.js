@@ -3,8 +3,10 @@ const express = require("express");
 const connectDB = require("./src/config/db");
 const { consoleLogger, requestLogger } = require('./src/utils/logger');
 const { errorHandler, notFoundHandler } = require('./src/middlewares/errorMiddleware');
-const authRoutes = require("./src/routes/authRoutes");
 
+
+const authRoutes = require("./src/routes/authRoutes");
+const dealRoutes = require("./src/routes/dealRoutes");
 
 
 const app = express();
@@ -18,7 +20,7 @@ app.use(requestLogger);
 
 
 app.use('/api/auth', authRoutes);
-
+app.use('/api/deals', dealRoutes);
 
 app.get('/', async (req, res)=>{
     res.json({message:'Welcome to DealExpress Api'});

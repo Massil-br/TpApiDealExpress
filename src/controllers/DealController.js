@@ -11,9 +11,16 @@ const { AppError } = require('../utils/error');
 const GetDeals = async (req , res ) =>{
     const deals = await  Deal.find();
     if (!deals){
-        throw new AppError("Can't find deals or empty", 500);
+        throw new AppError("Can't Process deals", 500);
     }
     res.status(200).json({
         success: "true",
+        deals
     })
 };
+
+
+
+module.exports = {
+    GetDeals,
+}

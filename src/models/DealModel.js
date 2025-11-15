@@ -41,18 +41,18 @@ const dealSchema = new mongoose.Schema({
         required:true,
     },
     status:{
-        Type: String,
+        type: String,
         enum:Object.values(STATUS),
         required:true,
         default: STATUS.PENDING,
     },
     temperature:{
-        Type: Number,
+        type: Number,
         requireed : true,
         default: 0,
     },
     authorId:{
-        Type: ObjectId,
+        type: ObjectId,
         required:true,
         ref:"User",
     }
