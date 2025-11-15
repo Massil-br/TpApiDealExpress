@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const ObjectId = mongoose.Schema.Types.ObjectId;
 
 
-const STATUS = {
+const DEAL_STATUS = {
     PENDING: "pending",
     APPROVED: "approved",
     REJECTED: "rejected"
@@ -42,9 +42,9 @@ const dealSchema = new mongoose.Schema({
     },
     status:{
         type: String,
-        enum:Object.values(STATUS),
+        enum:Object.values(DEAL_STATUS),
         required:true,
-        default: STATUS.PENDING,
+        default: DEAL_STATUS.PENDING,
     },
     temperature:{
         type: Number,
@@ -59,4 +59,7 @@ const dealSchema = new mongoose.Schema({
 },{timestamps:true});
 
 const Deal = mongoose.model('Deal', dealSchema);
-module.exports = Deal;
+module.exports = {
+    DEAL_STATUS,
+    Deal
+}
