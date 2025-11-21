@@ -31,7 +31,7 @@ const loginValidation =[
     body('password')
     .notEmpty().withMessage("password required")
     .isLength({min:6}).withMessage("password must have at least 6 chars")
-] 
+];
 
 module.exports = {
     createUserValidation,

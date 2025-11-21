@@ -5,8 +5,8 @@ const { createUserValidation, loginValidation } = require('../validators/AuthVal
 const { validate } = require('../models/UserModel');
 const {authenticateUser} = require('../middlewares/authMiddleware');
 
-router.post('/register', registerController, createUserValidation, validate );
-router.post('/login', loginController, loginValidation,validate);
+router.post('/register',createUserValidation, registerController, validate );
+router.post('/login',loginValidation, loginController, validate);
 router.get('/me',authenticateUser,profileController);
 
 module.exports = router;

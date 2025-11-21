@@ -1,5 +1,11 @@
 const { AppError } = require('../utils/error');
-const {DEAL_STATUS,Deal} = require('../models/DealModel');
+const {DEAL_STATUS,Deal, DEAL_CATEGORIES} = require('../models/DealModel');
+const ROLES = {
+    USER: 'user',
+    MODERATOR: 'moderator',
+    ADMIN: 'admin',
+}
+const mongoose = require('mongoose');
 /**
  * 
  * @param {import("express").Request} req 
@@ -7,25 +13,239 @@ const {DEAL_STATUS,Deal} = require('../models/DealModel');
  * @param {import("express").NextFunction} next 
  * @returns 
  */
-const GetDeals = async (req , res ) =>{
-    const deals = await  Deal.find();
-    if (!deals){
-        throw new AppError("Can't Process deals", 500);
-    }
-    const approvedDeals = [];
-    deals.forEach(deal => {
-        if (deal.status = DEAL_STATUS.APPROVED){
-            approvedDeals.push(deal);
+const GetDealsController = async (req , res ) =>{
+    try{
+        const deals = await  Deal.find().populate('authorId').exec();
+        if (!deals){
+            throw new AppError("Can't Process deals", 500);
         }
-    });
-    res.status(200).json({
+        const approvedDeals = [];
+        deals.forEach(deal => {
+            if (deal.status == DEAL_STATUS.APPROVED){
+                approvedDeals.push(deal);
+            }
+        });
+        return res.status(200).json({
+            success: true,
+            approvedDeals
+        })
+    }catch(error){
+        console.log(error);
+        throw new AppError("unknown error", 500);
+    }
+    
+};
+
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ * @returns 
+ */
+const SearchDealsController = async (req,res) =>{
+    
+    const {search} = req.body;
+    if (!search){
+        throw new AppError("search not found or empty", 400);
+    }
+
+    const filter = {};
+    filter.status = DEAL_STATUS.APPROVED;
+    
+    filter.$or = [
+        {title:{$regex: search, $options : 'i'}},
+        {description:{$regex: search, $options:'i'}}
+    ];
+    
+    const deals = await  Deal.find(filter).sort({createdAt:-1}).populate('authorId').exec();
+    
+    
+    return res.status(200).json({
         success: "true",
-        approvedDeals
+        deals
     })
 };
 
 
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ * @returns 
+ */
+const GetDealByIdController = async (req,res) =>{
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+        throw new AppError("Invalid id format", 400);
+    }
+
+    const deal = await Deal.findById(req.params.id).populate("authorId").exec();
+    if(!deal){
+        throw new AppError("Can't find deal");
+    }
+
+    return res.status(200).json({
+        success: true,
+        message:"deal found successfully",
+        deal
+    })
+
+
+};
+
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ * @returns 
+ */
+const AddDealController = async (req,res) =>{
+    const user = req.user;
+    if (!user){
+        throw new AppError("User not found", 403);
+    }
+
+    const {title,description,price,originalPrice,url,category}= req.body;
+
+    if(!title || !description){
+        throw new AppError("title or description or both not found", 400);
+    }
+
+    const deal = new Deal({
+        title,
+        description,
+    });
+
+    if (price){
+        deal.price = price;
+    }
+
+    if(originalPrice){
+        deal.originalPrice  = originalPrice;
+    }
+
+    if(url){
+        deal.url = url;
+    }
+    if(category){
+        deal.category = category;
+    }
+
+    deal.authorId = user._id;
+
+    await deal.populate('authorId');
+
+    await deal.save();
+
+
+
+    return res.status(201).json({
+        success: true,
+        message: "Deal created successfully",
+        deal
+    })
+    
+};
+
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ * @returns 
+ */
+const ModifyDealByIdController = async (req,res) =>{
+    const user = req.user;
+    if(!user){
+        throw new AppError("User not found", 403);
+    }
+
+    const {title,description,price,originalPrice,url,category} = req.body;
+    if(!title && !description && !price && !originalPrice && !! url && !category){
+        throw new AppError("you need at least one element to modify on the deal");
+    }
+
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+        throw new AppError("Invalid id format", 400);
+    }
+
+    const deal = await Deal.findById(req.params.id).populate("authorId").exec();
+
+    if(deal.authorId.toString() != user._id.toString() && user.role != ROLES.ADMIN && user.role != ROLES.MODERATOR){
+        throw new AppError("You are not allowed to modify this deal", 403);
+    }
+
+    if(title){
+        deal.title = title;
+    }
+
+    if(description){
+        deal.description = description;
+    }
+
+    if(price){
+        deal.price = price;
+    }
+
+    if(originalPrice){
+        deal.originalPrice = originalPrice;
+    }
+
+    if (url){
+        deal.url = url;
+    }
+    if(category){
+        deal.category = category;
+    }
+
+    await deal.save();
+
+    return res.status(200).json({
+        success:true,
+        message:"deal modified successfully",
+        deal
+    });
+
+
+};
+
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ * @returns 
+ */
+const DeleteDealByIdController = async (req,res) =>{
+    const user = req.user;
+    if(!user){
+        throw new AppError("User not found", 403);
+    }
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+        throw new AppError("Invalid id format", 400);
+    }
+    const deal = await Deal.findById(req.params.id);
+    if(deal.authorId.toString() != user._id.toString() && user.role != ROLES.ADMIN && user.role != ROLES.MODERATOR){
+        throw new AppError("You are not allowed to delete this post");
+    }
+
+    await deal.deleteOne();
+    
+    return res.status(200).json({
+        success:true,
+        message:"Deal deleted successfully",
+    });
+};
+
 
 module.exports = {
-    GetDeals,
+    GetDealsController,
+    SearchDealsController,
+    GetDealByIdController,
+    AddDealController,
+    ModifyDealByIdController,
+    DeleteDealByIdController
+    
 }

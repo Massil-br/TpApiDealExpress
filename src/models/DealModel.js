@@ -8,37 +8,50 @@ const DEAL_STATUS = {
     REJECTED: "rejected"
 }
 
+const DEAL_CATEGORIES = {
+    HIGH_TECH : "High-Tech",
+    HOME:"Maison",
+    FASHION : "Mode",
+    HOBBIES: "Loisirs",
+    OTHER:"Autre"
+}
+
 const dealSchema = new mongoose.Schema({
     title:{
         type:String,
         required: true,
         trim:true,
-        minlength: 3,
-        maxlength: 150,
+        minlength: 5,
+        maxlength: 100,
     },
     description:{
         type:String,
         required:true,
         trim:true,
-        minlength:3,
-        maxlength:350,
+        minlength:10,
+        maxlength:500,
     },
     price:{
         type:Number,
         required:true,
+        default:0,
     },
     originalPrice:{
         type:Number,
         required:true,
+        default:0,
     },
     url:{
         type:String,
         trim:true,
+        maxlength:2048
     },
     category:{
         type:String,
         trim:true,
         required:true,
+        enum:Object.values(DEAL_CATEGORIES),
+        default:DEAL_CATEGORIES.OTHER,
     },
     status:{
         type: String,
@@ -58,8 +71,10 @@ const dealSchema = new mongoose.Schema({
     }
 },{timestamps:true});
 
+//dealSchema.index({title:'text', description:'text'});
 const Deal = mongoose.model('Deal', dealSchema);
 module.exports = {
     DEAL_STATUS,
+    DEAL_CATEGORIES,
     Deal
 }

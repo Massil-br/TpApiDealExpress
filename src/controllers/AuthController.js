@@ -13,7 +13,7 @@ const baseRegistredRole = "admin";
  * @returns 
  */
 const registerController = async(req , res, next) =>{
-    const {username,bio,email, password, confirmPassword} = req.body;
+    const {username,email, password, confirmPassword} = req.body;
 
     if(!username  ||!email || !password || !confirmPassword){
         throw new AppError("Invalid Input", 400);
@@ -63,7 +63,7 @@ const loginController = async(req, res, next) =>{
         throw new AppError("Invalid input", 400)
     }
 
-    const existingUser = await User.findOne({$or: [{email: username},{username: username}]});
+    const existingUser = await User.findOne({$or: [{email: username},{username: username}]}).select('+password');
     if (!existingUser){
         throw new AppError("incorrect email or password", 400)
     }
@@ -75,6 +75,7 @@ const loginController = async(req, res, next) =>{
 
     const jwtToken = generateToken(existingUser.id);
     return res.status(200).json({
+        success:true,
         message:"login successfull",
         user:{
             id: existingUser._id,
@@ -100,6 +101,7 @@ const profileController = async(req,res,next) =>{
     console.log(user);
 
     return res.status(200).json({
+        success:true,
         message:"Your profile",
         user:{
             id: user._id,
