@@ -17,7 +17,7 @@ const GetDealsController = async (req , res ) =>{
     try{
         const deals = await  Deal.find().populate('authorId').exec();
         if (!deals){
-            throw new AppError("Can't Process deals", 500);
+            throw new AppError("Can't Process deals", 404);
         }
         const approvedDeals = [];
         deals.forEach(deal => {
@@ -59,7 +59,9 @@ const SearchDealsController = async (req,res) =>{
     ];
     
     const deals = await  Deal.find(filter).sort({createdAt:-1}).populate('authorId').exec();
-    
+    if(!deals){
+        throw new AppError("deals not found", 404);
+    }
     
     return res.status(200).json({
         success: "true",
@@ -82,7 +84,7 @@ const GetDealByIdController = async (req,res) =>{
 
     const deal = await Deal.findById(req.params.id).populate("authorId").exec();
     if(!deal){
-        throw new AppError("Can't find deal");
+        throw new AppError("Can't find deal", 404);
     }
 
     return res.status(200).json({
@@ -172,6 +174,10 @@ const ModifyDealByIdController = async (req,res) =>{
     }
 
     const deal = await Deal.findById(req.params.id).populate("authorId").exec();
+
+    if(!deal){
+        throw new AppError("deal not found", 404);
+    }
 
     if(deal.authorId.toString() != user._id.toString() && user.role != ROLES.ADMIN && user.role != ROLES.MODERATOR){
         throw new AppError("You are not allowed to modify this deal", 403);
