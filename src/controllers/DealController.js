@@ -45,17 +45,17 @@ const GetDealsController = async (req , res ) =>{
  */
 const SearchDealsController = async (req,res) =>{
     
-    const {search} = req.body;
-    if (!search){
-        throw new AppError("search not found or empty", 400);
+    const query = req.query.q;
+    if (!query){
+        throw new AppError("query 'q' not found or empty", 400);
     }
 
     const filter = {};
     filter.status = DEAL_STATUS.APPROVED;
     
     filter.$or = [
-        {title:{$regex: search, $options : 'i'}},
-        {description:{$regex: search, $options:'i'}}
+        {title:{$regex: query, $options : 'i'}},
+        {description:{$regex: query, $options:'i'}}
     ];
     
     const deals = await  Deal.find(filter).sort({createdAt:-1}).populate('authorId').exec();
