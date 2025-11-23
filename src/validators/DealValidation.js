@@ -69,11 +69,11 @@ const ModifyDealValidation = [
     .isLength({max:2048}).withMessage("Url length too long, must be under 2048 chars"),
     
     
-]
+];
 
 
 module.exports ={
     CreateDealValidation,
     SearchDealValidation,
     ModifyDealValidation
-}
+};

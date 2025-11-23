@@ -82,7 +82,49 @@ const VoteController = async (req,res) =>{
 
 }
 
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ * @returns 
+ */
+
+const RemoveVote = async (req, res) =>{
+    const user = req.user;
+    if(!user){
+        throw new AppError("User not found", 403);
+    }
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+        throw new AppError("invalid id format", 400);
+    }
+    const deal = await Deal.findById(req.params.id);
+    if (!deal){
+        throw new AppError("Deal not found",404);
+    }
+    const vote = await Vote.findOne({userId :user._id, dealId: deal._id});
+    if(!vote){
+        throw new AppError("vote not found",404);
+    }
+
+    if(vote.type == VOTE_TYPES.COLD){
+        deal.temperature ++;
+    }else{
+        deal.temperature--;
+    }
+
+    await vote.deleteOne();
+    await deal.save();
+
+    return res.status(200).json({
+        success:true,
+        message:"vote removed successfully"
+    })
+    
+};
+
 
 module.exports = {
     VoteController,
+    RemoveVote
 }
