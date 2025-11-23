@@ -1,5 +1,5 @@
 const { AppError } = require('../utils/error');
-const {DEAL_STATUS,Deal, DEAL_CATEGORIES} = require('../models/DealModel');
+const {DEAL_STATUS,Deal, DEAL_CATEGORIES} = require('../models/dealModel');
 const ROLES = {
     USER: 'user',
     MODERATOR: 'moderator',

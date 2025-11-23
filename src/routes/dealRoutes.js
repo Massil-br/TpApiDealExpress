@@ -1,8 +1,8 @@
 const express =require('express');
-const { GetDealsController, SearchDealsController,GetDealByIdController,AddDealController,ModifyDealByIdController,DeleteDealByIdController } = require('../controllers/DealController');
+const { GetDealsController, SearchDealsController,GetDealByIdController,AddDealController,ModifyDealByIdController,DeleteDealByIdController } = require('../controllers/dealController');
 const {authenticateUser} = require("../middlewares/authMiddleware");
-const {CreateDealValidation,SearchDealValidation, ModifyDealValidation} = require('../validators/DealValidation');
-const { validate } = require('../models/UserModel');
+const {CreateDealValidation,SearchDealValidation, ModifyDealValidation} = require('../validators/dealValidation');
+const { validate } = require('../models/userModel');
 const router = express.Router();
 
 

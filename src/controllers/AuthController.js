@@ -1,5 +1,5 @@
 const {generateToken} = require('../middlewares/authMiddleware')
-const User = require("../models/UserModel");
+const User = require("../models/userModel");
 const { AppError } = require('../utils/error');
 const bcrypt = require("bcrypt");
 

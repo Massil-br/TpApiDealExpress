@@ -1,5 +1,5 @@
 const {body, param} = require('express-validator');
-const {DEAL_CATEGORIES} = require('../models/DealModel');
+const {DEAL_CATEGORIES} = require('../models/dealModel');
 
 
 const VALID_DEAL_CATEGORIES_VALUES = Object.values(DEAL_CATEGORIES);
