@@ -7,6 +7,8 @@ const router = express.Router();
 const {VoteValidation} = require('../validators/voteValidation');
 const {VoteController, RemoveVote}= require('../controllers/voteController');
 const {asyncHandler} = require('../utils/error');
+const { GetCommentsController, AddCommentController, ModifyCommentController, DeleteCommentController } = require('../controllers/commentController');
+const { CommentValidation } = require('../validators/commentValidation');
 
 //Deal routes
 router.get("/", asyncHandler(GetDealsController));
@@ -20,5 +22,13 @@ router.delete("/:id", asyncHandler(authenticateUser), asyncHandler(DeleteDealByI
 //Vote routes
 router.post("/:id/vote",VoteValidation,validate, asyncHandler(authenticateUser),asyncHandler(VoteController));
 router.delete("/:id/vote", asyncHandler(authenticateUser),asyncHandler(RemoveVote));
+
+
+//Comment routes
+
+router.get("/:dealId/comments",asyncHandler(GetCommentsController));
+router.post("/:dealId/comments",CommentValidation, validate, asyncHandler(authenticateUser), asyncHandler(AddCommentController));
+router.put("/comments/:id", CommentValidation, validate, asyncHandler(authenticateUser), asyncHandler(ModifyCommentController));
+router.delete("/comments/:id",asyncHandler(authenticateUser), asyncHandler(DeleteCommentController));
 
 module.exports = router;
