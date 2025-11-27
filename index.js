@@ -7,6 +7,7 @@ const { errorHandler, notFoundHandler } = require('./src/middlewares/errorMiddle
 
 const authRoutes = require("./src/routes/authRoutes");
 const dealRoutes = require("./src/routes/dealRoutes");
+const commentRoutes = require("./src/routes/commentRoutes");
 
 
 const app = express();
@@ -21,6 +22,7 @@ app.use(requestLogger);
 
 app.use('/api/auth', authRoutes);
 app.use('/api/deals', dealRoutes);
+app.use('/api/comments', commentRoutes);
 
 app.get('/', async (req, res)=>{
     res.json({message:'Welcome to DealExpress Api'});
