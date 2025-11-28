@@ -5,7 +5,7 @@ const createUserValidation = [
     .trim()
     .notEmpty().withMessage('Username is required')
     .isLength({min:3,max:30}).withMessage('Username must have between 3 & 30 chars ')
-    .matches(/^[a-zA-ZÀ-ÿ\s'-0-9]+$/).withMessage('Username must contain only letters'),
+    .matches(/^[a-zA-Z0-9]+$/).withMessage('Username must contain only letters and numbers'),
 
     body('email')
     .trim()

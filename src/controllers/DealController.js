@@ -14,26 +14,40 @@ const mongoose = require('mongoose');
  * @returns 
  */
 const GetDealsController = async (req , res ) =>{
-    try{
-        const deals = await  Deal.find().populate('authorId').exec();
-        if (!deals){
-            throw new AppError("Can't Process deals", 404);
-        }
-        const approvedDeals = [];
-        deals.forEach(deal => {
-            if (deal.status == DEAL_STATUS.APPROVED){
-                approvedDeals.push(deal);
-            }
-        });
-        return res.status(200).json({
-            success: true,
-            approvedDeals
-        })
-    }catch(error){
-        console.log(error);
-        throw new AppError("unknown error", 500);
+    const deals = await  Deal.find().populate('authorId').exec();
+    if (!deals){
+        throw new AppError("Can't Process deals", 404);
     }
-    
+    const approvedDeals = [];
+    deals.forEach(deal => {
+        if (deal.status == DEAL_STATUS.APPROVED){
+            approvedDeals.push(deal);
+        }
+    });
+    return res.status(200).json({
+        success: true,
+        approvedDeals
+    })
+};
+
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ * @returns 
+ */
+const GetPendingDealsController = async (req, res)=>{
+    const deals = await Deal.find({status: DEAL_STATUS.PENDING}).populate('authorId').exec();
+    if (!deals){
+        throw new AppError("Can't Process deals", 404);
+    }
+
+    return res.status(200).json({
+        success:true,
+        message:"list of pending deals",
+        deals
+    });
 };
 
 /**
@@ -245,6 +259,34 @@ const DeleteDealByIdController = async (req,res) =>{
     });
 };
 
+/**
+ * 
+ * @param {import("express").Request} req 
+ * @param {import("express").Response} res 
+ * @param {import("express").NextFunction} next 
+ * @returns 
+ */
+const ModerateDealController = async(req,res)=>{
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)){
+        throw new AppError("invalid deal id");
+    }
+    
+    const deal = await Deal.findById(req.params.id).populate('authorId').exec();
+    if(!deal){
+        throw new AppError("can't process deal");
+    }
+
+    const {status}= req.body;
+    deal.status = status;
+
+    deal.save();
+    return res.status(200).json({
+        success : true,
+        message:"deal moderated successfully",
+        deal
+    });
+};
+
 
 module.exports = {
     GetDealsController,
@@ -252,6 +294,8 @@ module.exports = {
     GetDealByIdController,
     AddDealController,
     ModifyDealByIdController,
-    DeleteDealByIdController
+    DeleteDealByIdController,
+    GetPendingDealsController,
+    ModerateDealController
     
 }

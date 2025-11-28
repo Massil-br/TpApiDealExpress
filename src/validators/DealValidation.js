@@ -25,6 +25,7 @@ const CreateDealValidation = [
 
 
     body("category")
+    .default("Autre")
     .trim()
     .isString().withMessage("Category must be a string")
     .isIn(VALID_DEAL_CATEGORIES_VALUES).withMessage(`Invalid category name, needs to be one of those values : ${VALID_DEAL_CATEGORIES_VALUES.join(', ')}`),
@@ -60,6 +61,7 @@ const ModifyDealValidation = [
 
 
     body("category")
+    .default("Autre")
     .trim()
     .isString().withMessage("Category must be a string")
     .isIn(VALID_DEAL_CATEGORIES_VALUES).withMessage(`Invalid category name, needs to be one of those values : ${VALID_DEAL_CATEGORIES_VALUES.join(', ')}`),
