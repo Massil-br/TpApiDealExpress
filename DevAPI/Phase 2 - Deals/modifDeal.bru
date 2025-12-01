@@ -1,0 +1,31 @@
+meta {
+  name: modifDeal
+  type: http
+  seq: 5
+}
+
+put {
+  url: http://localhost:8080/api/deals/6929b8c356307578cfd03341
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTJjZDJiN2E4MjdmMDAzYjUyYTAzOGMiLCJpYXQiOjE3NjQ1NDUyMDcsImV4cCI6MTc2NTE1MDAwN30.JgeNLhpNq8ka-SB6MQSrrMtFNDWA3_p-C0roJJcSlLA
+}
+
+body:json {
+  {
+    "title": "Ce deal a été modifié",
+    "description": "deal modifié c'est une dinguerie comment c'est beau",
+    "price": 18,
+    "originalPrice": 120,
+    "url": "http://salut.com",
+    "category": "Autre"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -1,0 +1,26 @@
+meta {
+  name: modifComment
+  type: http
+  seq: 3
+}
+
+put {
+  url: http://localhost:8080/api/comments/692d64a5ad6c88af2e0cddc0
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTJjZDJiN2E4MjdmMDAzYjUyYTAzOGMiLCJpYXQiOjE3NjQ1NDUyMDcsImV4cCI6MTc2NTE1MDAwN30.JgeNLhpNq8ka-SB6MQSrrMtFNDWA3_p-C0roJJcSlLA
+}
+
+body:json {
+  {
+    "content": "C'est nul a chier ! Supprimez svp ! Ronflex au bucher !!!"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

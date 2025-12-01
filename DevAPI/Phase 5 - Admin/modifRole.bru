@@ -1,0 +1,22 @@
+meta {
+  name: modifRole
+  type: http
+  seq: 5
+}
+
+patch {
+  url: http://localhost:8080/api/admin/users/692ccebdd034a5473ed017d1/role
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "role": "moderator"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

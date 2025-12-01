@@ -1,0 +1,22 @@
+meta {
+  name: rejectDeal
+  type: http
+  seq: 3
+}
+
+patch {
+  url: http://localhost:8080/api/admin/deals/692cdcd4af7616c8aeb8676c/moderate
+  body: json
+  auth: inherit
+}
+
+body:json {
+  { 
+    "status": "rejected" 
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

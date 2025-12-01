@@ -1,0 +1,31 @@
+meta {
+  name: createDeal
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/api/deals
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTJjY2YwOWQwMzRhNTQ3M2VkMDE3ZDYiLCJpYXQiOjE3NjQ1NDUzNTcsImV4cCI6MTc2NTE1MDE1N30.jdRMQGtX-ymDLwLVX5nfglL6JTzxpVO_Jx1NRt6X3sg
+}
+
+body:json {
+  {
+    "title":"La vie de ma mère c'est un deal",
+    "description":"merci d'avoir cliqué, votez hot si vous trouvez ça inutile!",
+    "price":20,
+    "originalPrice":250,
+    "url":"salut.tlm.com",
+    "category":"Autre"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

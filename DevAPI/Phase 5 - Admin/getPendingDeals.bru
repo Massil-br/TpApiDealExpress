@@ -1,0 +1,16 @@
+meta {
+  name: getPendingDeals
+  type: http
+  seq: 1
+}
+
+get {
+  url: http://localhost:8080/api/admin/deals/pending
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

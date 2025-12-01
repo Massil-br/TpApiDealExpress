@@ -1,0 +1,24 @@
+meta {
+  name: getDeals
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:8080/api/deals?page=1
+  body: json
+  auth: bearer
+}
+
+params:query {
+  page: 1
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTJjY2YwOWQwMzRhNTQ3M2VkMDE3ZDYiLCJpYXQiOjE3NjQ1NDUzNTcsImV4cCI6MTc2NTE1MDE1N30.jdRMQGtX-ymDLwLVX5nfglL6JTzxpVO_Jx1NRt6X3sg
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

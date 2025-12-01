@@ -1,0 +1,20 @@
+meta {
+  name: deletComment
+  type: http
+  seq: 4
+}
+
+delete {
+  url: http://localhost:8080/api/comments/692d64a5ad6c88af2e0cddc0
+  body: none
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTJjY2ViZGQwMzRhNTQ3M2VkMDE3ZDEiLCJpYXQiOjE3NjQ1NDQxODksImV4cCI6MTc2NTE0ODk4OX0.Eaz_8Zrcw-OzteOU6Mg-3SamfOTHPGEqdQtm_LlfdWA
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

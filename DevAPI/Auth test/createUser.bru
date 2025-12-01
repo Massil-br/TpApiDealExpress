@@ -1,0 +1,24 @@
+meta {
+  name: createUser
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3000/api/auth/register
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "username":"TestMassil",
+    "email":"testMassil1@gmail.com",
+    "password":"password1"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

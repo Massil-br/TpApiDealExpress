@@ -1,0 +1,20 @@
+meta {
+  name: deletDeal
+  type: http
+  seq: 6
+}
+
+delete {
+  url: http://localhost:8080/api/deals/6929b8c356307578cfd03341
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTJjZDJiN2E4MjdmMDAzYjUyYTAzOGMiLCJpYXQiOjE3NjQ1NDUyMDcsImV4cCI6MTc2NTE1MDAwN30.JgeNLhpNq8ka-SB6MQSrrMtFNDWA3_p-C0roJJcSlLA
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

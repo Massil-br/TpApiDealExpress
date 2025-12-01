@@ -1,0 +1,20 @@
+meta {
+  name: deletVote
+  type: http
+  seq: 3
+}
+
+delete {
+  url: http://localhost:8080/api/deals/6929b8c356307578cfd03341/vote
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTJjY2YwOWQwMzRhNTQ3M2VkMDE3ZDYiLCJpYXQiOjE3NjQ1NDUzNTcsImV4cCI6MTc2NTE1MDE1N30.jdRMQGtX-ymDLwLVX5nfglL6JTzxpVO_Jx1NRt6X3sg
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

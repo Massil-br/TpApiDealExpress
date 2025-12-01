@@ -1,0 +1,26 @@
+meta {
+  name: createComment
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:8080/api/deals/6929b8c356307578cfd03341/comments
+  body: json
+  auth: bearer
+}
+
+auth:bearer {
+  token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2OTJjZDJiN2E4MjdmMDAzYjUyYTAzOGMiLCJpYXQiOjE3NjQ1NDUyMDcsImV4cCI6MTc2NTE1MDAwN30.JgeNLhpNq8ka-SB6MQSrrMtFNDWA3_p-C0roJJcSlLA
+}
+
+body:json {
+  {
+    "content": "C'est nul ! Supprimez svp ! Ronflex au bucher !!!"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
