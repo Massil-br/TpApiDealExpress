@@ -133,7 +133,7 @@ const DeleteCommentController = async(req,res) =>{
         throw new AppError("cannot process comment", 500);
     }
 
-    if(comment.authorId != user._id && user.role != ROLES.MODERATOR && user.role != ROLES.ADMIN){
+    if(comment.authorId != user._id && user.role != ROLES.ADMIN){
         throw new AppError("You are not allowed to delete this comment", 403);
     }
 

@@ -22,7 +22,8 @@ const GetDealsController = async (req , res ) =>{
     const deals = await Deal.find({status:DEAL_STATUS.APPROVED})
     .sort({createdAt: -1})
     .skip(skip)
-    .limit(limit);
+    .limit(limit)
+    .populate("authorId").exec();
     if (!deals){
         throw new AppError("Can't Process deals", 404);
     }
@@ -202,8 +203,12 @@ const ModifyDealByIdController = async (req,res) =>{
         throw new AppError("deal not found", 404);
     }
 
-    if(deal.authorId.toString() != user._id.toString() && user.role != ROLES.ADMIN && user.role != ROLES.MODERATOR){
+    if(deal.authorId.toString() !== user._id.toString() && user.role.toString() !== ROLES.ADMIN){
         throw new AppError("You are not allowed to modify this deal", 403);
+    }
+
+    if(deal.status === DEAL_STATUS.APPROVED){
+        throw new AppError("you are not allowed to modify this deal because it has been already approved", 403)
     }
 
     if(title){
@@ -256,7 +261,7 @@ const DeleteDealByIdController = async (req,res) =>{
         throw new AppError("Invalid id format", 400);
     }
     const deal = await Deal.findById(req.params.id);
-    if(deal.authorId.toString() != user._id.toString() && user.role != ROLES.ADMIN && user.role != ROLES.MODERATOR){
+    if(deal.authorId.toString() != user._id.toString() && user.role != ROLES.ADMIN ){
         throw new AppError("You are not allowed to delete this post");
     }
 
