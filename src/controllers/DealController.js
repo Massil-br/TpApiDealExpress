@@ -14,12 +14,21 @@ const mongoose = require('mongoose');
  * @returns 
  */
 const GetDealsController = async (req , res ) =>{
+    let filter = {status:DEAL_STATUS.APPROVED}
+    
+    if(req.user){
+        const user = req.user;
+        if(user.role.toString() == ROLES.ADMIN){
+            filter = {};
+        }
+    }
 
     const page = parseInt(req.query.page) || 1;
     const limit = 10;
     const skip = (page - 1)* limit;
 
-    const deals = await Deal.find({status:DEAL_STATUS.APPROVED})
+
+    const deals = await Deal.find(filter)
     .sort({createdAt: -1})
     .skip(skip)
     .limit(limit)
@@ -28,7 +37,7 @@ const GetDealsController = async (req , res ) =>{
         throw new AppError("Can't Process deals", 404);
     }
     
-    const totalDeals = await Deal.countDocuments({status:DEAL_STATUS.APPROVED});
+    const totalDeals = await Deal.countDocuments(filter);
     const totalPages = Math.ceil(totalDeals / limit);
 
 

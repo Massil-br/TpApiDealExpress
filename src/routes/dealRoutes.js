@@ -1,6 +1,6 @@
 const express =require('express');
 const { GetDealsController, SearchDealsController,GetDealByIdController,AddDealController,ModifyDealByIdController,DeleteDealByIdController } = require('../controllers/dealController');
-const {authenticateUser} = require("../middlewares/authMiddleware");
+const {authenticateUser, optionalAuthenticate} = require("../middlewares/authMiddleware");
 const {CreateDealValidation,SearchDealValidation, ModifyDealValidation} = require('../validators/dealValidation');
 const { validate } = require('../utils/validate');
 const router = express.Router();
@@ -11,7 +11,7 @@ const { GetCommentsController, AddCommentController} = require('../controllers/c
 const { CommentValidation } = require('../validators/commentValidation');
 
 //Deal routes
-router.get("/", asyncHandler(GetDealsController));
+router.get("/", asyncHandler(optionalAuthenticate),asyncHandler(GetDealsController));
 router.get("/search",SearchDealValidation,validate,asyncHandler(SearchDealsController));
 router.get("/:id", asyncHandler(authenticateUser), asyncHandler(GetDealByIdController));
 router.post("/",CreateDealValidation,validate,asyncHandler(authenticateUser),  asyncHandler(AddDealController));
