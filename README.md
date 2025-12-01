@@ -41,9 +41,9 @@ Le serveur expose les routes sur `http://localhost:8080`.
 ---
 
 ## Comptes disponibles pour les test
--username: "user1", password: "password1"
--username: "moderator1", password: "password1"
--username: "admin1", password: "password1"
+-username: "user1", password: "password1".
+-username: "moderator1", password: "password1".
+-username: "admin1", password: "password1".
 
 ## Authentification & conventions
 
