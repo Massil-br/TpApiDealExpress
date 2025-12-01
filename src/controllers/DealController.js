@@ -14,19 +14,28 @@ const mongoose = require('mongoose');
  * @returns 
  */
 const GetDealsController = async (req , res ) =>{
-    const deals = await  Deal.find().populate('authorId').exec();
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = 10;
+    const skip = (page - 1)* limit;
+
+    const deals = await Deal.find({status:DEAL_STATUS.APPROVED})
+    .sort({createdAt: -1})
+    .skip(skip)
+    .limit(limit);
     if (!deals){
         throw new AppError("Can't Process deals", 404);
     }
-    const approvedDeals = [];
-    deals.forEach(deal => {
-        if (deal.status === DEAL_STATUS.APPROVED){
-            approvedDeals.push(deal);
-        }
-    });
+    
+    const totalDeals = await Deal.countDocuments({status:DEAL_STATUS.APPROVED});
+    const totalPages = Math.ceil(totalDeals / limit);
+
+
     return res.status(200).json({
         success: true,
-        approvedDeals
+        deals,
+        totalDeals,
+        totalPages
     })
 };
 
