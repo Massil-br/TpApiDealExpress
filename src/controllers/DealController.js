@@ -20,7 +20,7 @@ const GetDealsController = async (req , res ) =>{
     }
     const approvedDeals = [];
     deals.forEach(deal => {
-        if (deal.status == DEAL_STATUS.APPROVED){
+        if (deal.status === DEAL_STATUS.APPROVED){
             approvedDeals.push(deal);
         }
     });

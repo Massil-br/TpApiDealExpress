@@ -3,7 +3,7 @@ const router = express.Router();
 const {validate} = require('../utils/validate');
 const {authenticateUser, requireAnyRole} = require('../middlewares/authMiddleware');
 const {asyncHandler} = require('../utils/error');
-const { GetPendingDealsController, ModerateDealController } = require("../controllers/DealController");
+const { GetPendingDealsController, ModerateDealController } = require("../controllers/dealController");
 const { ModerateDealValidation, ModerateUsersValidation } = require("../validators/moderationValidation");
 const { GetUsersWithPaginationController, ModifyUserRoleController } = require("../controllers/userController");
 router.get("/deals/pending",asyncHandler(authenticateUser), requireAnyRole(['admin', 'moderator']),asyncHandler(GetPendingDealsController));
